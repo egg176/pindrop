@@ -17,6 +17,7 @@
       <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
       <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
       <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
+      <a class="nav-link" href="account.html"><span class="nav-icon">☺</span>Account</a>
     </nav>
     <div class="side-label">CREATE</div>
     <a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
@@ -34,7 +35,7 @@
     <header class="topbar">
       <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
       <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search designs, creators, tournaments..." aria-label="Search"></label>
-      <div class="top-actions"><button class="icon-btn" id="notifications" aria-label="Notifications">♧</button><a class="avatar" href="profile.html" aria-label="Your profile">Y</a></div>
+      <div class="top-actions"><button class="icon-btn" id="notifications" aria-label="Notifications">♧</button><a class="avatar" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
     </header>
     <section class="feed" id="feed">
       <article class="post" data-category="Posters" data-search="novadesigns sound horizons poster music festival">
@@ -80,6 +81,9 @@
 </div>
 <a class="floating-create" href="create.html" aria-label="Create a design" title="Create a design">+</a>
 <div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

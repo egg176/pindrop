@@ -57,8 +57,36 @@ function readPosts() {
   try { return JSON.parse(localStorage.getItem("pindrop.posts") || "[]"); }
   catch { return []; }
 }
-if (form) form.addEventListener("submit", event => {
+// When Supabase is configured, publishing requires a signed-in user with a confirmed email.
+// (Posts are still stored in this browser only until the database stage; this gate
+// prepares the page for real accounts and is not a security boundary by itself.)
+const authNotice = document.getElementById("authNotice");
+function canPublish(state) {
+  return Boolean(state.session && window.PinDropAuth.emailConfirmed(state.session));
+}
+if (window.PinDropAuth && window.PinDropAuth.configured) {
+  const updateNotice = () => {
+    if (!authNotice) return;
+    const ok = canPublish(window.PinDropAuth.getState());
+    authNotice.hidden = ok;
+    if (!ok) {
+      authNotice.textContent = "";
+      authNotice.append("Sign in with a confirmed email to publish. ");
+      const link = document.createElement("a");
+      link.href = "account.html";
+      link.textContent = "Go to your account →";
+      authNotice.appendChild(link);
+    }
+  };
+  window.PinDropAuth.ready.then(updateNotice);
+  window.PinDropAuth.onChange(updateNotice);
+}
+if (form) form.addEventListener("submit", async event => {
   event.preventDefault();
+  if (window.PinDropAuth && window.PinDropAuth.configured) {
+    const state = await window.PinDropAuth.ready;
+    if (!canPublish(window.PinDropAuth.getState())) { showToast("Please sign in with a confirmed email to publish."); return; }
+  }
   if (!selectedFile) { showToast("Please upload an image of your design."); return; }
   if (!form.reportValidity()) return;
 
