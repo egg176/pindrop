@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#246bfd">
+  <title>PinDrop — Design community</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><span class="logo">p</span><span>PinDrop</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-link active" href="index.html"><span class="nav-icon">⌂</span>Home</a>
+      <a class="nav-link" href="explore.html"><span class="nav-icon">⌕</span>Explore</a>
+      <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
+      <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
+      <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
+    </nav>
+    <div class="side-label">CREATE</div>
+    <a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
+    <div class="side-label">POPULAR CATEGORIES</div>
+    <button class="category active" data-category="All Designs">▦ <span>All Designs</span></button>
+    <button class="category" data-category="Posters">▧ <span>Posters</span></button>
+    <button class="category" data-category="Logos">◉ <span>Logos</span></button>
+    <button class="category" data-category="Branding">◇ <span>Branding</span></button>
+    <button class="category" data-category="Typography">Aa <span>Typography</span></button>
+    <button class="category" data-category="UI/UX">▣ <span>UI/UX</span></button>
+    <div class="side-footer">Create · Share · Compete<br><br>The home for graphic designers.</div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <label class="search"><span>⌕</span><input id="search" type="search" placeholder="Search designs, creators, tournaments..." aria-label="Search"></label>
+      <div class="top-actions"><button class="icon-btn" id="notifications" aria-label="Notifications">♧</button><a class="avatar" href="profile.html" aria-label="Your profile">Y</a></div>
+    </header>
+    <section class="feed" id="feed">
+      <article class="post" data-category="Posters" data-search="novadesigns sound horizons poster music festival">
+        <div class="post-head"><div class="avatar">N</div><div><div class="post-user">NovaDesigns</div><div class="handle">@novadesigns · 2h</div></div><button class="dots" aria-label="More options">···</button></div>
+        <p class="post-copy">A poster I made for a fictional music festival. Let me know what you think! Open to feedback.</p>
+        <div class="art">
+          <div class="poster"><div class="date">JUL 12—14 · 2025</div><h2>SOUND<br>HORIZONS</h2><div class="date">MUSIC FESTIVAL</div><div class="sun"></div><div class="mountain"></div></div>
+          <div class="art-side"><div class="art-tile"></div><div class="art-tile two"></div></div>
+        </div>
+        <div class="post-actions"><button class="action like"><span class="heart">♡</span><span class="count">842</span></button><button class="action comment"><span>▢</span><span>56</span></button><button class="action share"><span>↗</span><span>Share</span></button><button class="action bookmark"><span>♧</span></button></div>
+      </article>
+      <article class="post" data-category="Logos" data-search="pixelrogue logo sustainable clothing brand verda">
+        <div class="post-head"><div class="avatar avatar-gold">P</div><div><div class="post-user">PixelRogue</div><div class="handle">@pixelrogue · 4h</div></div><button class="dots" aria-label="More options">···</button></div>
+        <p class="post-copy">Logo design for a sustainable clothing brand. Clean, simple, and modern.</p>
+        <div class="art logo-art"><span class="leaf">❧</span><span>verda</span></div>
+        <div class="post-actions"><button class="action like"><span class="heart">♡</span><span class="count">623</span></button><button class="action comment"><span>▢</span><span>34</span></button><button class="action share"><span>↗</span><span>Share</span></button><button class="action bookmark"><span>♧</span></button></div>
+      </article>
+      <div class="empty-state" id="emptyState" hidden>No designs match your search.</div>
+    </section>
+    <footer class="mobile-footer">PinDrop · Create. Share. Compete.</footer>
+  </main>
+  <aside class="rightbar">
+    <section class="panel">
+      <div class="panel-title">Trending now <a class="link-btn" href="explore.html">View all →</a></div>
+      <div class="trend"><div class="thumb dark">▧</div><div><div class="small-title">Neon Posters</div><div class="small-meta">1.2k designs · 4.8k likes</div></div></div>
+      <div class="trend"><div class="thumb black">◐</div><div><div class="small-title">Minimal Logos</div><div class="small-meta">986 designs · 3.9k likes</div></div></div>
+      <div class="trend"><div class="thumb">Aa</div><div><div class="small-title">Typography</div><div class="small-meta">756 designs · 3.2k likes</div></div></div>
+      <div class="trend"><div class="thumb pale">▣</div><div><div class="small-title">UI / UX</div><div class="small-meta">521 designs · 2.1k likes</div></div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-title">Upcoming tournaments <a class="link-btn" href="tournaments.html">View all →</a></div>
+      <div class="tournament"><div class="thumb pale">▥</div><div><div class="small-title">Minimalist Logo Showdown</div><div class="small-meta">2 days left · 32 players</div></div><a class="join" href="tournaments.html">View</a></div>
+      <div class="tournament"><div class="thumb dark">✦</div><div><div class="small-title">Poster Championship</div><div class="small-meta">1 week left · 16 players</div></div><a class="join" href="tournaments.html">View</a></div>
+      <div class="tournament"><div class="thumb">Aa</div><div><div class="small-title">Typography Battle</div><div class="small-meta">2 weeks left · 24 players</div></div><a class="join" href="tournaments.html">View</a></div>
+    </section>
+    <section class="panel">
+      <div class="panel-title">Top creators <a class="link-btn" href="explore.html">View all →</a></div>
+      <div class="creator"><span class="rank">1</span><div class="avatar">N</div><div><div class="small-title">NovaDesigns</div><div class="small-meta">12.4k followers</div></div><button class="join follow">Follow</button></div>
+      <div class="creator"><span class="rank">2</span><div class="avatar avatar-gold">P</div><div><div class="small-title">PixelRogue</div><div class="small-meta">9.8k followers</div></div><button class="join follow">Follow</button></div>
+      <div class="creator"><span class="rank">3</span><div class="avatar avatar-pink">L</div><div><div class="small-title">LunaCreates</div><div class="small-meta">8.1k followers</div></div><button class="join follow">Follow</button></div>
+    </section>
+  </aside>
+</div>
+<a class="floating-create" href="create.html" aria-label="Create a design" title="Create a design">+</a>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>

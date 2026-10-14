@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#246bfd">
+  <title>Create a design — PinDrop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="create-page">
+<div class="app create-app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><span class="logo">p</span><span>PinDrop</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Home</a>
+      <a class="nav-link" href="explore.html"><span class="nav-icon">⌕</span>Explore</a>
+      <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
+      <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
+      <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
+    </nav>
+    <div class="side-label">CREATE</div><a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
+    <div class="side-label">YOUR WORKFLOW</div>
+    <div class="workflow"><span class="step-number">1</span><span>Upload artwork</span></div>
+    <div class="workflow"><span class="step-number">2</span><span>Add details</span></div>
+    <div class="workflow"><span class="step-number">3</span><span>Publish to feed</span></div>
+    <div class="side-footer">Create · Share · Compete<br><br>The home for graphic designers.</div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <main class="main create-main">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <a class="back-link" href="index.html">← <span>Back to feed</span></a>
+      <div class="top-actions"><a class="avatar" href="profile.html" aria-label="Your profile">Y</a></div>
+    </header>
+    <div class="create-heading"><div class="eyebrow">YOUR CREATIVE SPACE</div><h1>Share your design</h1><p>Show the community what you've been working on.</p></div>
+    <form class="create-layout" id="createForm">
+      <section class="create-card">
+        <div class="section-heading"><div><h2>Artwork</h2><p>Upload an image of your design.</p></div><span class="optional">Required</span></div>
+        <label class="upload-zone" id="uploadZone" for="designFile">
+          <input type="file" id="designFile" accept="image/png,image/jpeg,image/webp,image/gif" required>
+          <div class="upload-icon">↑</div>
+          <strong>Choose an image to upload</strong>
+          <span>PNG, JPG, WEBP or GIF · Max 10 MB</span>
+          <span class="upload-browse">Browse files</span>
+        </label>
+        <div class="preview-wrap" id="previewWrap" hidden>
+          <img id="imagePreview" alt="Preview of your uploaded design">
+          <button type="button" class="remove-image" id="removeImage">Remove image</button>
+        </div>
+        <div class="field-hint" id="fileHint">For best results, use a high-resolution image.</div>
+      </section>
+      <section class="create-card">
+        <div class="section-heading"><div><h2>Design details</h2><p>Help people discover your work.</p></div></div>
+        <label class="field-label" for="designTitle">Title <span>*</span></label>
+        <input class="text-field" id="designTitle" name="title" maxlength="80" placeholder="Give your design a title" required>
+        <div class="field-row"><span></span><span class="counter" id="titleCounter">0 / 80</span></div>
+        <label class="field-label" for="designDescription">Description</label>
+        <textarea class="text-field textarea" id="designDescription" name="description" maxlength="500" placeholder="What inspired this design? Tell the community about it..."></textarea>
+        <div class="field-row"><span>Optional · Max 500 characters</span><span class="counter" id="descriptionCounter">0 / 500</span></div>
+        <label class="field-label" for="designCategory">Category <span>*</span></label>
+        <select class="text-field" id="designCategory" name="category" required>
+          <option value="">Choose a category</option><option>Posters</option><option>Logos</option><option>Branding</option><option>Typography</option><option>UI/UX</option><option>Illustration</option><option>Photo Manipulation</option><option>Other</option>
+        </select>
+        <label class="field-label" for="designTags">Tags <span class="muted">(optional)</span></label>
+        <input class="text-field" id="designTags" name="tags" maxlength="120" placeholder="e.g. minimal, blue, editorial">
+        <div class="field-hint">Separate tags with commas.</div>
+        <label class="check-row"><input type="checkbox" id="allowBattle"><span><strong>Open to design battles</strong><small>Let other creators challenge this work in future battles.</small></span></label>
+        <div class="form-actions"><a class="secondary-button" href="index.html">Cancel</a><button class="primary" type="submit">Publish design <span aria-hidden="true">→</span></button></div>
+        <p class="local-note">This starter version saves posts in this browser only. A backend is needed to share posts across accounts and devices.</p>
+      </section>
+    </form>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+<script src="create.js"></script>
+</body>
+</html>
