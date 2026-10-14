@@ -17,6 +17,7 @@
       <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
       <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
       <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
+      <a class="nav-link" href="account.html"><span class="nav-icon">☺</span>Account</a>
     </nav>
     <div class="side-label">CREATE</div><a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
     <div class="side-label">YOUR WORKFLOW</div>
@@ -30,9 +31,10 @@
     <header class="topbar">
       <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
       <a class="back-link" href="index.html">← <span>Back to feed</span></a>
-      <div class="top-actions"><a class="avatar" href="profile.html" aria-label="Your profile">Y</a></div>
+      <div class="top-actions"><a class="avatar" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
     </header>
     <div class="create-heading"><div class="eyebrow">YOUR CREATIVE SPACE</div><h1>Share your design</h1><p>Show the community what you've been working on.</p></div>
+    <div class="notice" id="authNotice" role="status" hidden style="max-width:760px;margin-bottom:16px"></div>
     <form class="create-layout" id="createForm">
       <section class="create-card">
         <div class="section-heading"><div><h2>Artwork</h2><p>Upload an image of your design.</p></div><span class="optional">Required</span></div>
@@ -72,6 +74,9 @@
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
 <script src="app.js"></script>
 <script src="create.js"></script>
 </body>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#246bfd">
+  <title>Account — PinDrop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app create-app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><span class="logo">p</span><span>PinDrop</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Home</a>
+      <a class="nav-link" href="explore.html"><span class="nav-icon">⌕</span>Explore</a>
+      <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
+      <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
+      <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
+      <a class="nav-link active" href="account.html" aria-current="page"><span class="nav-icon">☺</span>Account</a>
+    </nav>
+    <div class="side-label">CREATE</div>
+    <a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
+    <div class="side-footer">Create · Share · Compete<br><br>The home for graphic designers.</div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <main class="main create-main">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <a class="back-link" href="index.html">← <span>Back to feed</span></a>
+      <div class="top-actions"><a class="avatar" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
+    </header>
+
+    <div class="create-heading">
+      <div class="eyebrow">YOUR ACCOUNT</div>
+      <h1 id="accountTitle">Welcome to PinDrop</h1>
+      <p id="accountSubtitle">Sign in or create an account to share designs and join battles.</p>
+    </div>
+
+    <div class="create-layout">
+      <div class="notice" id="configNotice" role="alert" hidden></div>
+      <div class="form-message" id="pageMessage" role="status" hidden></div>
+
+      <!-- Signed out: sign in / create account / reset password -->
+      <section class="create-card auth-card" id="panelSignedOut" hidden>
+        <div class="auth-tabs" role="tablist" aria-label="Account options">
+          <button class="auth-tab" type="button" role="tab" id="tabSignIn" data-tab="signin" aria-selected="true" aria-controls="signInForm">Sign in</button>
+          <button class="auth-tab" type="button" role="tab" id="tabSignUp" data-tab="signup" aria-selected="false" aria-controls="signUpForm">Create account</button>
+        </div>
+
+        <form id="signInForm" novalidate aria-labelledby="tabSignIn">
+          <label class="field-label" for="signInEmail">Email</label>
+          <input class="text-field" id="signInEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+          <label class="field-label" for="signInPassword">Password</label>
+          <input class="text-field" id="signInPassword" type="password" autocomplete="current-password" placeholder="Your password" required>
+          <div class="form-message" id="signInMessage" role="alert" hidden></div>
+          <div class="form-actions form-actions-split">
+            <button class="inline-link" type="button" id="forgotLink">Forgot password?</button>
+            <button class="primary" type="submit" id="signInButton">Sign in</button>
+          </div>
+          <div class="resend-row" id="resendRow" hidden>
+            <span>Didn't get the confirmation email?</span>
+            <button class="inline-link" type="button" id="resendButton">Send it again</button>
+          </div>
+        </form>
+
+        <form id="signUpForm" novalidate hidden aria-labelledby="tabSignUp">
+          <label class="field-label" for="signUpName">Display name <span>*</span></label>
+          <input class="text-field" id="signUpName" type="text" autocomplete="nickname" maxlength="50" placeholder="How should we call you?" required>
+          <label class="field-label" for="signUpEmail">Email <span>*</span></label>
+          <input class="text-field" id="signUpEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+          <label class="field-label" for="signUpPassword">Password <span>*</span></label>
+          <input class="text-field" id="signUpPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+          <label class="field-label" for="signUpConfirm">Confirm password <span>*</span></label>
+          <input class="text-field" id="signUpConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Type it again" required>
+          <div class="field-hint">We'll email you a link to confirm your address before you can use your account.</div>
+          <div class="form-message" id="signUpMessage" role="alert" hidden></div>
+          <div class="form-actions"><button class="primary" type="submit" id="signUpButton">Create account</button></div>
+        </form>
+
+        <form id="resetForm" novalidate hidden aria-label="Reset password">
+          <h2 class="auth-subheading">Reset your password</h2>
+          <p class="field-hint">Enter your email and we'll send you a link to choose a new password.</p>
+          <label class="field-label" for="resetEmail">Email</label>
+          <input class="text-field" id="resetEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+          <div class="form-message" id="resetMessage" role="alert" hidden></div>
+          <div class="form-actions form-actions-split">
+            <button class="inline-link" type="button" id="backToSignIn">← Back to sign in</button>
+            <button class="primary" type="submit" id="resetButton">Send reset link</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Arrived from a password-reset email -->
+      <section class="create-card auth-card" id="panelRecovery" hidden>
+        <div class="section-heading"><div><h2>Choose a new password</h2><p>You're signed in from your reset link. Pick a new password to finish.</p></div></div>
+        <form id="recoveryForm" novalidate>
+          <label class="field-label" for="newPassword">New password</label>
+          <input class="text-field" id="newPassword" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required>
+          <label class="field-label" for="newPasswordConfirm">Confirm new password</label>
+          <input class="text-field" id="newPasswordConfirm" type="password" autocomplete="new-password" minlength="8" placeholder="Type it again" required>
+          <div class="form-message" id="recoveryMessage" role="alert" hidden></div>
+          <div class="form-actions"><button class="primary" type="submit" id="recoveryButton">Update password</button></div>
+        </form>
+      </section>
+
+      <!-- Signed in but email not confirmed yet -->
+      <section class="create-card auth-card" id="panelVerify" hidden>
+        <div class="section-heading"><div><h2>Confirm your email</h2><p id="verifyText">We sent a confirmation link to your inbox.</p></div></div>
+        <div class="form-message info" role="status">Your account is limited until your email address is confirmed. Check your spam folder if you can't find the message.</div>
+        <div class="form-message" id="verifyMessage" role="alert" hidden></div>
+        <div class="form-actions form-actions-split">
+          <button class="secondary-button" type="button" id="verifySignOut">Sign out</button>
+          <button class="primary" type="button" id="verifyResend">Resend confirmation email</button>
+        </div>
+      </section>
+
+      <!-- Signed in and confirmed -->
+      <div id="panelSignedIn" hidden>
+        <section class="create-card">
+          <div class="account-head">
+            <div class="avatar large" id="accountAvatar" aria-hidden="true">?</div>
+            <div class="account-meta">
+              <div class="account-name"><span id="accountName">Your name</span><span class="verified-badge" id="accountBadge" title="Verified creator" aria-label="Verified creator" hidden>✓</span></div>
+              <div class="handle" id="accountHandle"></div>
+              <div class="handle" id="accountEmail"></div>
+            </div>
+            <span class="role-chip" id="accountRole" hidden></span>
+          </div>
+        </section>
+
+        <section class="create-card">
+          <div class="section-heading"><div><h2>Profile</h2><p>This is what other creators see.</p></div></div>
+          <form id="profileForm" novalidate>
+            <label class="field-label" for="profileName">Display name <span>*</span></label>
+            <input class="text-field" id="profileName" maxlength="50" autocomplete="nickname" required>
+            <label class="field-label" for="profileUsername">Username <span class="muted">(optional)</span></label>
+            <input class="text-field" id="profileUsername" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="e.g. novadesigns">
+            <div class="field-hint">3–20 characters: lowercase letters, numbers and underscores.</div>
+            <label class="field-label" for="profileBio">Bio <span class="muted">(optional)</span></label>
+            <textarea class="text-field textarea" id="profileBio" maxlength="300" placeholder="Tell the community about your work..."></textarea>
+            <div class="field-row"><span></span><span class="counter" id="bioCounter">0 / 300</span></div>
+            <div class="field-hint">Avatar uploads arrive with the secure, moderated upload system in a later stage.</div>
+            <div class="form-message" id="profileMessage" role="alert" hidden></div>
+            <div class="form-actions"><button class="primary" type="submit" id="profileButton">Save profile</button></div>
+          </form>
+        </section>
+
+        <section class="create-card" id="adminPanel" hidden>
+          <div class="section-heading"><div><h2>Creator verification</h2><p>Admins can grant or remove the blue checkmark. Every change is logged.</p></div><span class="role-chip">Admin</span></div>
+          <form id="adminLookupForm" novalidate>
+            <label class="field-label" for="adminUsername">Find a creator by username</label>
+            <input class="text-field" id="adminUsername" autocapitalize="none" spellcheck="false" placeholder="username">
+            <div class="form-actions"><button class="secondary-button" type="submit" id="adminLookupButton">Look up</button></div>
+          </form>
+          <div class="form-message" id="adminMessage" role="alert" hidden></div>
+          <div class="admin-result" id="adminResult" hidden>
+            <div class="avatar" id="adminResultAvatar" aria-hidden="true">?</div>
+            <div class="account-meta">
+              <div class="account-name"><span id="adminResultName"></span><span class="verified-badge" id="adminResultBadge" aria-label="Verified creator" hidden>✓</span></div>
+              <div class="handle" id="adminResultHandle"></div>
+            </div>
+            <button class="primary" type="button" id="adminToggleButton">Grant verification</button>
+          </div>
+        </section>
+
+        <section class="create-card">
+          <div class="section-heading"><div><h2>Session</h2><p>You'll stay signed in on this device until you sign out.</p></div></div>
+          <div class="form-actions"><button class="secondary-button" type="button" id="signOutButton">Sign out</button></div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+<a class="floating-create" href="create.html" aria-label="Create a design" title="Create a design">+</a>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="app.js"></script>
+<script src="account.js"></script>
+</body>
+</html>

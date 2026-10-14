@@ -1,0 +1,17 @@
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+*.pem
+service-role*
+supabase/.temp/
+supabase/.branches/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build output
+*.zip
