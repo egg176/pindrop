@@ -2,8 +2,8 @@
 
 A social platform for graphic designers. White and blue, clean, minimal and mobile-first.
 
-**Current stage: Stage 1 – real accounts with Supabase Auth.**
-Moderation, real posts/likes/comments and tournament voting are *not* built yet (see [Roadmap](#roadmap)).
+**Current stage: Stage 1 (accounts) + the first part of Stage 3 (real posts, likes and comments).**
+Posts are approval-first: a new design is only visible to its author and staff until a moderator/admin/owner approves it. Automated image screening, reporting, blocking, follows and tournament voting are *not* built yet (see [Roadmap](#roadmap)).
 
 > **Status honesty note:** the code for accounts is written, but it has not yet been run against *your* Supabase project. Work through the [setup](#1-set-up-supabase) and the [test checklist](#5-test-checklist) below before relying on any of it.
 
@@ -24,6 +24,20 @@ Moderation, real posts/likes/comments and tournament voting are *not* built yet 
 | Admin verification panel | Account page (only shown to admins; enforced in the database) |
 | Audit log of verification/owner changes | `admin_audit_log` table |
 
+## What's in the posts update
+
+| Feature | Where |
+| --- | --- |
+| Upload a design (PNG/JPG/WEBP/GIF, max 10 MB) to a **private** storage bucket | `create.html`, `create.js`, bucket `designs` |
+| Posts start as `pending`; only approved posts are public | `posts` table + RLS |
+| Real feed with likes and comments shared between users | `feed.js`, `likes`, `comments` tables |
+| Like/comment counts kept by database triggers (can't be faked from the browser) | `bump_like_count()`, `bump_comment_count()` |
+| "Your designs" list with review status and delete | `account.html`, `myposts.js` |
+| Staff review queue (approve / reject with a reason, audit-logged) | Account page, `moderate_post()` |
+| Security headers + Content Security Policy for Vercel | `vercel.json` |
+
+Images are never public by URL: the site requests short-lived signed links, and storage only issues one when the post is approved, or the caller is the author or staff.
+
 ## Project layout
 
 ```
@@ -35,6 +49,10 @@ app.js  create.js  styles.css    existing, lightly updated
 supabase/migrations/             NEW  database setup (run in order)
   20261014000001_profiles_and_roles.sql
   20261014000002_admin_verification.sql
+  20261015000003_posts_likes_comments.sql   posts, likes, comments, moderate_post(), private image bucket
+feed.js                          NEW  feed, likes and comments on the home page
+myposts.js                       NEW  "Your designs" + staff review queue on the account page
+vercel.json                      NEW  security headers / CSP for Vercel
 supabase/scripts/assign_owner.sql NEW  one-time owner assignment (run by hand)
 ```
 
@@ -65,6 +83,7 @@ Open **SQL Editor → New query** and run these files **in order**, pasting each
 
 1. `supabase/migrations/20261014000001_profiles_and_roles.sql`
 2. `supabase/migrations/20261014000002_admin_verification.sql`
+3. `supabase/migrations/20261015000003_posts_likes_comments.sql`
 
 Or, with the [Supabase CLI](https://supabase.com/docs/guides/cli): `supabase login`, `supabase link --project-ref <ref>`, then `supabase db push`.
 
@@ -146,15 +165,19 @@ Do these after setup. Nothing here has been run against a live project yet.
 
 ## Known limitations at this stage
 
-- Posts, likes, follows and comments are still browser-only demos (`localStorage`). Publishing now requires being signed in (when Supabase is configured) but posts are not yet shared between users.
-- Avatars can't be uploaded yet (planned with moderated, access-controlled storage).
-- No moderation, reporting, blocking, suspensions or appeals yet.
+- Follows are still a browser-only demo, and Explore, Profile, Battles and Tournaments still show sample content.
+- The feed loads the 30 newest approved posts; there is no "load more" yet.
+- Posts can't be edited after submitting (editing would bypass review); delete and repost instead.
+- Avatars can't be uploaded yet.
+- Moderation is manual only: no automated image/text screening, reporting, blocking, suspensions or appeals yet. Do this before opening the site to the public.
+- No rate limits on posting, liking or commenting yet.
 - `[hidden]` is now enforced globally in `styles.css` (this also fixes the upload box staying visible after choosing an image on the create page).
 - No automated tests exist yet; verify with the checklist above.
 
 ## Roadmap
 
-1. **Stage 1 (this)** – accounts, profiles, owner role, verification foundation.
+1. **Stage 1 (done)** – accounts, profiles, owner role, verification foundation.
+   **Stage 3a (this update)** – real posts, likes, comments, manual approval queue.
 2. **Stage 2 – Moderation** – text + image screening (OpenAI Moderation API as one layer, run server-side in an Edge Function with its key as a Supabase secret), private-by-default pending review, admin review queue, reports, blocking, warnings/suspensions/bans/appeals, moderator invitations, audit logging, access-controlled storage, child-safety procedures.
 3. **Stage 3 – Social + tournaments** – database-backed feed, likes, comments, follows; one-vote-per-user-per-battle enforced in the database, server-side winner calculation, rate limits and suspicious-vote review.
 

@@ -165,6 +165,17 @@
           </div>
         </section>
 
+        <section class="create-card" id="myDesignsPanel">
+          <div class="section-heading"><div><h2>Your designs</h2><p>New designs are reviewed before they appear in the feed.</p></div></div>
+          <div id="myDesignsList"></div>
+        </section>
+
+        <section class="create-card" id="reviewPanel" hidden>
+          <div class="section-heading"><div><h2>Review queue</h2><p>Designs waiting for approval. Every decision is logged.</p></div><span class="role-chip">Staff</span></div>
+          <div id="reviewList"></div>
+          <div class="form-actions"><button class="secondary-button" type="button" id="reviewRefresh">Refresh queue</button></div>
+        </section>
+
         <section class="create-card">
           <div class="section-heading"><div><h2>Session</h2><p>You'll stay signed in on this device until you sign out.</p></div></div>
           <div class="form-actions"><button class="secondary-button" type="button" id="signOutButton">Sign out</button></div>
@@ -180,5 +191,6 @@
 <script src="auth.js"></script>
 <script src="app.js"></script>
 <script src="account.js"></script>
+<script src="myposts.js"></script>
 </body>
 </html>

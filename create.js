@@ -7,15 +7,17 @@ const fileHint = document.getElementById("fileHint");
 let selectedFile = null;
 let previewUrl = null;
 
+const EXTENSIONS = { "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif" };
+const MAX_BYTES = 10 * 1024 * 1024;
+
 function setFile(file) {
   if (!file) return;
-  const allowed = ["image/png", "image/jpeg", "image/webp", "image/gif"];
-  if (!allowed.includes(file.type)) {
+  if (!EXTENSIONS[file.type]) {
     showToast("Please choose a PNG, JPG, WEBP, or GIF image.");
     fileInput.value = "";
     return;
   }
-  if (file.size > 10 * 1024 * 1024) {
+  if (file.size > MAX_BYTES) {
     showToast("That image is over 10 MB. Please choose a smaller file.");
     fileInput.value = "";
     return;
@@ -53,13 +55,8 @@ const descriptionInput = document.getElementById("designDescription");
 if (titleInput) titleInput.addEventListener("input", () => document.getElementById("titleCounter").textContent = titleInput.value.length + " / 80");
 if (descriptionInput) descriptionInput.addEventListener("input", () => document.getElementById("descriptionCounter").textContent = descriptionInput.value.length + " / 500");
 
-function readPosts() {
-  try { return JSON.parse(localStorage.getItem("pindrop.posts") || "[]"); }
-  catch { return []; }
-}
-// When Supabase is configured, publishing requires a signed-in user with a confirmed email.
-// (Posts are still stored in this browser only until the database stage; this gate
-// prepares the page for real accounts and is not a security boundary by itself.)
+// Publishing needs a signed-in user with a confirmed email. The browser check below
+// is only a convenience: the database (RLS + storage policies) enforces the same rule.
 const authNotice = document.getElementById("authNotice");
 function canPublish(state) {
   return Boolean(state.session && window.PinDropAuth.emailConfirmed(state.session));
@@ -81,37 +78,62 @@ if (window.PinDropAuth && window.PinDropAuth.configured) {
   window.PinDropAuth.ready.then(updateNotice);
   window.PinDropAuth.onChange(updateNotice);
 }
+
+function parseTags(raw) {
+  const seen = new Set();
+  const tags = [];
+  raw.split(",").forEach(part => {
+    const tag = part.trim().replace(/^#+/, "").slice(0, 30);
+    const key = tag.toLowerCase();
+    if (tag && !seen.has(key)) { seen.add(key); tags.push(tag); }
+  });
+  return tags.slice(0, 8);
+}
+
 if (form) form.addEventListener("submit", async event => {
   event.preventDefault();
-  if (window.PinDropAuth && window.PinDropAuth.configured) {
-    const state = await window.PinDropAuth.ready;
-    if (!canPublish(window.PinDropAuth.getState())) { showToast("Please sign in with a confirmed email to publish."); return; }
-  }
+  const Auth = window.PinDropAuth;
+  if (!Auth || !Auth.configured) { showToast("Publishing is unavailable right now."); return; }
+  await Auth.ready;
+  const { session } = Auth.getState();
+  if (!canPublish(Auth.getState())) { showToast("Please sign in with a confirmed email to publish."); return; }
   if (!selectedFile) { showToast("Please upload an image of your design."); return; }
   if (!form.reportValidity()) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    const post = {
-      id: (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()),
-      title: titleInput.value.trim(),
-      description: descriptionInput.value.trim(),
-      category: document.getElementById("designCategory").value,
-      tags: document.getElementById("designTags").value.split(",").map(tag => tag.trim()).filter(Boolean),
-      openToBattles: document.getElementById("allowBattle").checked,
-      image: reader.result,
-      createdAt: new Date().toISOString()
-    };
-    const posts = readPosts();
-    posts.unshift(post);
-    try {
-      localStorage.setItem("pindrop.posts", JSON.stringify(posts));
-      localStorage.setItem("pindrop.lastPublished", post.id);
-      window.location.href = "index.html?published=1";
-    } catch (error) {
-      showToast("This image may be too large for browser storage. Try a smaller image.");
-    }
-  };
-  reader.onerror = () => showToast("The image could not be read. Please try again.");
-  reader.readAsDataURL(selectedFile);
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalLabel = submitButton ? submitButton.innerHTML : "";
+  if (submitButton) { submitButton.disabled = true; submitButton.textContent = "Uploading…"; }
+  const restore = () => { if (submitButton) { submitButton.disabled = false; submitButton.innerHTML = originalLabel; } };
+
+  const userId = session.user.id;
+  const path = userId + "/" + crypto.randomUUID() + "." + EXTENSIONS[selectedFile.type];
+
+  const upload = await Auth.client.storage.from("designs").upload(path, selectedFile, {
+    contentType: selectedFile.type,
+    cacheControl: "3600",
+    upsert: false
+  });
+  if (upload.error) {
+    restore();
+    showToast("The image couldn't be uploaded. Please try again.");
+    return;
+  }
+
+  const { error } = await Auth.client.from("posts").insert({
+    author_id: userId,
+    title: titleInput.value.trim(),
+    description: descriptionInput.value.trim(),
+    category: document.getElementById("designCategory").value,
+    tags: parseTags(document.getElementById("designTags").value),
+    open_to_battles: document.getElementById("allowBattle").checked,
+    image_path: path
+  });
+  if (error) {
+    // Don't leave an orphaned image behind.
+    await Auth.client.storage.from("designs").remove([path]);
+    restore();
+    showToast("Your design couldn't be saved. Please check the details and try again.");
+    return;
+  }
+  window.location.href = "index.html?submitted=1";
 });

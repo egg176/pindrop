@@ -72,69 +72,9 @@ if (searchInput) searchInput.addEventListener("input", () => {
 const notifications = document.getElementById("notifications");
 if (notifications) notifications.addEventListener("click", () => showToast("You are all caught up."));
 
-// Load designs published from create.html in this browser.
-function renderPublishedPosts() {
-  const feed = document.getElementById("feed");
-  if (!feed) return;
-  let posts = [];
-  try { posts = JSON.parse(localStorage.getItem("pindrop.posts") || "[]"); } catch {}
-  posts.forEach(post => {
-    if (document.getElementById("published-" + post.id)) return;
-    const article = document.createElement("article");
-    article.className = "post";
-    article.id = "published-" + post.id;
-    article.dataset.category = post.category || "Other";
-    article.dataset.search = [post.title, post.description, post.category, ...(post.tags || [])].join(" ").toLowerCase();
-
-    const head = document.createElement("div");
-    head.className = "post-head";
-    head.innerHTML = '<div class="avatar">Y</div><div><div class="post-user">You</div><div class="handle">@yourhandle · just now</div></div>';
-    const title = document.createElement("h3");
-    title.className = "post-user";
-    title.style.margin = "14px 0 4px";
-    title.textContent = post.title || "Untitled design";
-    article.appendChild(head);
-    article.appendChild(title);
-    if (post.description) {
-      const copy = document.createElement("p");
-      copy.className = "post-copy";
-      copy.textContent = post.description;
-      article.appendChild(copy);
-    }
-    if (post.image) {
-      const image = document.createElement("img");
-      image.src = post.image;
-      image.alt = post.title || "Uploaded design";
-      image.style.cssText = "display:block;width:100%;max-height:560px;object-fit:contain;background:#f4f7fc;border-radius:12px";
-      article.appendChild(image);
-    }
-    if (post.tags && post.tags.length) {
-      const tags = document.createElement("p");
-      tags.className = "small-meta";
-      tags.textContent = post.tags.map(tag => "#" + tag.replace(/\s+/g, "")).join("  ");
-      article.appendChild(tags);
-    }
-    const actions = document.createElement("div");
-    actions.className = "post-actions";
-    actions.innerHTML = '<button class="action like"><span class="heart">♡</span><span class="count">0</span></button><button class="action comment"><span>▢</span><span>Comment</span></button><button class="action share"><span>↗</span><span>Share</span></button>';
-    article.appendChild(actions);
-    const like = actions.querySelector(".like");
-    like.addEventListener("click", () => {
-      const liked = like.classList.toggle("liked");
-      like.querySelector(".heart").textContent = liked ? "♥" : "♡";
-      like.querySelector(".count").textContent = liked ? "1" : "0";
-    });
-    actions.querySelector(".comment").addEventListener("click", () => showToast("Comments need a connected backend in the next version."));
-    actions.querySelector(".share").addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText(location.href + "#published-" + post.id); showToast("Post link copied."); }
-      catch { showToast("Copy the page address to share this design."); }
-    });
-    feed.prepend(article);
-  });
-}
-renderPublishedPosts();
+// After publishing, create.js sends people back here. New designs are reviewed first.
 const params = new URLSearchParams(location.search);
-if (params.get("published") === "1") {
-  showToast("Your design was published in this browser.");
+if (params.get("submitted") === "1") {
+  showToast("Design submitted! It will appear in the feed once it has been reviewed.");
   history.replaceState({}, "", location.pathname);
 }
