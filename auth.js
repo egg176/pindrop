@@ -70,6 +70,41 @@
     return data;
   }
 
+  // ---- Avatars -----------------------------------------------------------
+  // profiles.avatar_url stores a storage path ("<user-id>/<file>") inside the
+  // public "avatars" bucket. paintAvatar() shows the photo, or the person's
+  // initial when there is no photo (or it fails to load).
+  function initialOf(name) {
+    return name && name.trim() ? name.trim().charAt(0).toUpperCase() : "?";
+  }
+  function avatarUrl(path) {
+    if (!client || !path) return null;
+    const { data } = client.storage.from("avatars").getPublicUrl(path);
+    return data && data.publicUrl ? data.publicUrl : null;
+  }
+  function paintAvatar(el, person) {
+    if (!el) return;
+    const name = person && person.display_name ? person.display_name : "";
+    const url = person && person.avatar_url ? avatarUrl(person.avatar_url) : null;
+    const key = (url || "") + "|" + name;
+    if (el.dataset.avatarKey === key) return; // unchanged: don't reload the image
+    el.dataset.avatarKey = key;
+    el.textContent = "";
+    el.classList.remove("has-photo");
+    if (!url) { el.textContent = initialOf(name); return; }
+    const img = document.createElement("img");
+    img.alt = "";
+    img.decoding = "async";
+    img.addEventListener("error", () => {
+      img.remove();
+      el.classList.remove("has-photo");
+      el.textContent = initialOf(name);
+    });
+    img.src = url;
+    el.appendChild(img);
+    el.classList.add("has-photo");
+  }
+
   // Fills in simple data-* hooks so any page can show who is signed in.
   // Uses textContent only - profile text is user-supplied and never treated as HTML.
   function applyBindings() {
@@ -79,7 +114,7 @@
     const name = profile && profile.display_name ? profile.display_name : "";
 
     document.querySelectorAll("[data-auth-avatar]").forEach(el => {
-      el.textContent = name ? name.trim().charAt(0).toUpperCase() : "?";
+      paintAvatar(el, profile);
       el.setAttribute("aria-label", signedIn ? "Your account" : "Sign in");
       el.setAttribute("title", signedIn ? name || "Your account" : "Sign in");
     });
@@ -92,9 +127,7 @@
       const tag = profile && profile.role === "owner" ? " · Official account" : "";
       el.textContent = handle + tag;
     });
-    document.querySelectorAll("[data-profile-avatar]").forEach(el => {
-      el.textContent = name ? name.trim().charAt(0).toUpperCase() : "?";
-    });
+    document.querySelectorAll("[data-profile-avatar]").forEach(el => paintAvatar(el, profile));
     document.querySelectorAll("[data-profile-badge]").forEach(el => {
       el.hidden = !(profile && profile.is_verified);
     });
@@ -158,6 +191,8 @@
     accountUrl,
     emailConfirmed,
     refreshProfile,
+    avatarUrl,
+    paintAvatar,
     getState: () => ({ session: state.session, profile: state.profile }),
     onChange(fn) { listeners.push(fn); },
     async signOut() {

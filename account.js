@@ -239,7 +239,7 @@
   bio.addEventListener("input", () => { $("bioCounter").textContent = bio.value.length + " / 300"; });
 
   function fillProfile(profile, user) {
-    $("accountAvatar").textContent = initial(profile && profile.display_name);
+    Auth.paintAvatar($("accountAvatar"), profile);
     $("accountName").textContent = (profile && profile.display_name) || "Your name";
     $("accountBadge").hidden = !(profile && profile.is_verified);
     $("accountHandle").textContent = profile && profile.username ? "@" + profile.username : "No username yet";
@@ -303,7 +303,7 @@
   function renderAdminTarget() {
     const box = $("adminResult");
     if (!adminTarget) { box.hidden = true; return; }
-    $("adminResultAvatar").textContent = initial(adminTarget.display_name);
+    Auth.paintAvatar($("adminResultAvatar"), adminTarget);
     $("adminResultName").textContent = adminTarget.display_name;
     $("adminResultBadge").hidden = !adminTarget.is_verified;
     $("adminResultHandle").textContent = "@" + adminTarget.username + " · " + adminTarget.role;
@@ -326,7 +326,7 @@
     setBusy($("adminLookupButton"), true, "Looking up…");
     const { data, error } = await Auth.client
       .from("profiles")
-      .select("id,username,display_name,role,is_verified")
+      .select("id,username,display_name,role,is_verified,avatar_url")
       .eq("username", username)
       .maybeSingle();
     setBusy($("adminLookupButton"), false);

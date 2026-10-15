@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#246bfd">
   <title>Account — PinDrop</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="app create-app">
   <aside class="sidebar" id="sidebar">
-    <a class="brand" href="index.html"><span class="logo">p</span><span>PinDrop</span></a>
+    <a class="brand" href="index.html"><img class="logo" src="assets/logo-128.png" width="36" height="36" alt=""><span>PinDrop</span></a>
     <nav class="nav" aria-label="Main navigation">
       <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Home</a>
       <a class="nav-link" href="explore.html"><span class="nav-icon">⌕</span>Explore</a>
@@ -130,6 +130,25 @@
           </div>
         </section>
 
+        <section class="create-card" id="avatarCard">
+          <div class="section-heading"><div><h2>Profile picture</h2><p>PNG, JPG or WEBP. It's shown as a circle next to your name.</p></div></div>
+          <div class="avatar-editor">
+            <div class="avatar-stage" id="avatarStage" hidden>
+              <canvas id="avatarCanvas" width="240" height="240" tabindex="0" aria-label="Crop your picture. Drag, or use the arrow keys, to reposition."></canvas>
+              <label class="avatar-zoom" for="avatarZoom"><span>Zoom</span><input type="range" id="avatarZoom" min="1" max="3" step="0.01" value="1"></label>
+              <div class="field-hint">Drag the picture to reposition it.</div>
+            </div>
+            <div class="avatar-actions">
+              <input type="file" id="avatarFile" accept="image/png,image/jpeg,image/webp" hidden>
+              <button class="secondary-button" type="button" id="avatarChoose">Choose photo</button>
+              <button class="primary" type="button" id="avatarSave" hidden>Save picture</button>
+              <button class="secondary-button" type="button" id="avatarCancel" hidden>Cancel</button>
+              <button class="secondary-button" type="button" id="avatarRemove" hidden>Remove picture</button>
+            </div>
+            <div class="form-message" id="avatarMessage" role="alert" hidden></div>
+          </div>
+        </section>
+
         <section class="create-card">
           <div class="section-heading"><div><h2>Profile</h2><p>This is what other creators see.</p></div></div>
           <form id="profileForm" novalidate>
@@ -141,7 +160,6 @@
             <label class="field-label" for="profileBio">Bio <span class="muted">(optional)</span></label>
             <textarea class="text-field textarea" id="profileBio" maxlength="300" placeholder="Tell the community about your work..."></textarea>
             <div class="field-row"><span></span><span class="counter" id="bioCounter">0 / 300</span></div>
-            <div class="field-hint">Avatar uploads arrive with the secure, moderated upload system in a later stage.</div>
             <div class="form-message" id="profileMessage" role="alert" hidden></div>
             <div class="form-actions"><button class="primary" type="submit" id="profileButton">Save profile</button></div>
           </form>
@@ -191,6 +209,7 @@
 <script src="auth.js"></script>
 <script src="app.js"></script>
 <script src="account.js"></script>
+<script src="avatar-editor.js"></script>
 <script src="myposts.js"></script>
 </body>
 </html>

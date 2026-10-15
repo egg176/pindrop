@@ -23,8 +23,10 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
-  function initial(name) {
-    return name ? name.trim().charAt(0).toUpperCase() : "?";
+  function avatar(person, className) {
+    const node = el("div", className);
+    Auth.paintAvatar(node, person);
+    return node;
   }
   function timeAgo(iso) {
     const seconds = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
@@ -63,7 +65,7 @@
   // ----------------------------------------------------------- post element
   function buildComment(comment, post, list, countEl) {
     const row = el("div", "comment-row");
-    row.appendChild(el("div", "avatar small", initial(comment.author && comment.author.display_name)));
+    row.appendChild(avatar(comment.author, "avatar small"));
     const body = el("div", "comment-body");
     const head = el("div", "comment-head");
     head.appendChild(el("strong", "", (comment.author && comment.author.display_name) || "Creator"));
@@ -118,7 +120,7 @@
       const { data, error } = await Auth.client
         .from("comments")
         .insert({ post_id: post.id, author_id: currentUserId(), body: text })
-        .select("id,body,created_at,author_id,author:profiles!comments_author_id_fkey(display_name,username)")
+        .select("id,body,created_at,author_id,author:profiles!comments_author_id_fkey(display_name,username,avatar_url)")
         .single();
       send.disabled = false;
       if (error) return showToast("Couldn't post your comment. Please try again.");
@@ -132,7 +134,7 @@
     async function load() {
       const { data, error } = await Auth.client
         .from("comments")
-        .select("id,body,created_at,author_id,author:profiles!comments_author_id_fkey(display_name,username)")
+        .select("id,body,created_at,author_id,author:profiles!comments_author_id_fkey(display_name,username,avatar_url)")
         .eq("post_id", post.id)
         .order("created_at", { ascending: true })
         .limit(100);
@@ -153,7 +155,7 @@
     article.dataset.search = [post.title, post.description, post.category, (post.author && post.author.display_name) || "", (post.author && post.author.username) || "", ...(post.tags || [])].join(" ").toLowerCase();
 
     const head = el("div", "post-head");
-    head.appendChild(el("div", "avatar", initial(post.author && post.author.display_name)));
+    head.appendChild(avatar(post.author, "avatar"));
     const who = el("div");
     const name = el("div", "post-user", (post.author && post.author.display_name) || "Creator");
     if (post.author && post.author.is_verified) {
@@ -265,7 +267,7 @@
     }
     const { data: posts, error } = await Auth.client
       .from("posts")
-      .select("id,title,description,category,tags,image_path,like_count,comment_count,created_at,author:profiles!posts_author_id_fkey(display_name,username,is_verified)")
+      .select("id,title,description,category,tags,image_path,like_count,comment_count,created_at,author:profiles!posts_author_id_fkey(display_name,username,is_verified,avatar_url)")
       .eq("status", "approved")
       .order("created_at", { ascending: false })
       .limit(PAGE_SIZE);

@@ -17,7 +17,7 @@ Posts are approval-first: a new design is only visible to its author and staff u
 | Email confirmation required before use | Supabase "Confirm email" setting + RLS check (`is_email_confirmed()`) |
 | Sign-in, sign-out, persistent sessions | `auth.js`, `account.js` |
 | Password reset by email | `account.js` (reset + "choose new password" screens) |
-| Profiles: display name, username, bio (avatar column reserved) | `profiles` table, account page |
+| Profiles: display name, username, bio, profile picture | `profiles` table, account page, `avatar-editor.js` |
 | Roles: `user`, `moderator`, `admin`, `owner` | `profiles.role` |
 | Protected official **owner** role | `supabase/scripts/assign_owner.sql` (SQL editor only) |
 | Blue verified checkmark users can't grant themselves | `profiles.is_verified` + `admin_set_verification()` |
@@ -50,6 +50,9 @@ supabase/migrations/             NEW  database setup (run in order)
   20261014000001_profiles_and_roles.sql
   20261014000002_admin_verification.sql
   20261015000003_posts_likes_comments.sql   posts, likes, comments, moderate_post(), private image bucket
+  20261015000004_avatars.sql                public avatars bucket, upload rules, set_my_avatar()
+avatar-editor.js                 NEW  profile picture crop + upload on the account page
+assets/                          NEW  logo + favicons
 feed.js                          NEW  feed, likes and comments on the home page
 myposts.js                       NEW  "Your designs" + staff review queue on the account page
 vercel.json                      NEW  security headers / CSP for Vercel
@@ -168,7 +171,7 @@ Do these after setup. Nothing here has been run against a live project yet.
 - Follows are still a browser-only demo, and Explore, Profile, Battles and Tournaments still show sample content.
 - The feed loads the 30 newest approved posts; there is no "load more" yet.
 - Posts can't be edited after submitting (editing would bypass review); delete and repost instead.
-- Avatars can't be uploaded yet.
+- Profile pictures are public as soon as they are uploaded (posts are reviewed first, avatars are not). Staff can delete a file from the `avatars` bucket; a report/review flow for avatars is part of Stage 2.
 - Moderation is manual only: no automated image/text screening, reporting, blocking, suspensions or appeals yet. Do this before opening the site to the public.
 - No rate limits on posting, liking or commenting yet.
 - `[hidden]` is now enforced globally in `styles.css` (this also fixes the upload box staying visible after choosing an image on the create page).
@@ -183,4 +186,4 @@ Do these after setup. Nothing here has been run against a live project yet.
 
 ## Brand
 
-- Name: PinDrop · Logo: white lowercase `p` in a blue circle · Main blue `#246BFD` · White / soft gray backgrounds.
+- Name: PinDrop · Logo: `assets/logo-128.png` (white lowercase `p` in a blue circle) · Main blue `#246BFD` · White / soft gray backgrounds.
