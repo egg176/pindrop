@@ -8,6 +8,6 @@
 // Everything in this file is downloaded by every visitor's browser.
 // PinDrop refuses to start if it detects a secret key here.
 window.PINDROP_CONFIG = {
-  supabaseUrl: "YOUR-PROJECT-URL",
-  supabaseKey: "YOUR-PUBLISHABLE-KEY"
+  supabaseUrl: "https://kuzmapnvtyrdeenygigv.supabase.co",
+  supabaseKey: "sb_publishable_ZGM8gyRMsWymmleN6q33gg_-qZAEVPU"
 };
