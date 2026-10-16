@@ -178,8 +178,12 @@
     }
     who.appendChild(name);
     who.appendChild(el("div", "post-sub", post.title));
+    who.appendChild(el("div", "post-handle", (post.author && post.author.username ? "@" + post.author.username + " · " : "") + timeAgo(post.created_at)));
     head.appendChild(who);
     article.appendChild(head);
+
+    article.appendChild(el("h3", "post-title", post.title));
+    if (post.description) article.appendChild(el("p", "post-copy", post.description));
 
     const media = el("div", "post-media");
     if (imageUrl) {
@@ -192,9 +196,10 @@
     }
     article.appendChild(media);
 
-    if (post.description) article.appendChild(el("p", "post-copy", post.description));
     if (post.tags && post.tags.length) {
-      article.appendChild(el("p", "small-meta post-tags", post.tags.map(tag => "#" + tag.replace(/\s+/g, "")).join("  ")));
+      const tags = el("div", "post-tags");
+      post.tags.forEach(tag => tags.appendChild(el("span", "tag", "#" + tag.replace(/\s+/g, ""))));
+      article.appendChild(tags);
     }
 
     const actions = el("div", "post-actions");
@@ -268,6 +273,26 @@
 
     return article;
   }
+
+  // ------------------------------------------------------------- view size
+  // "list" = big posts (default), "grid" = compact gallery. Remembered per browser.
+  const viewButtons = document.querySelectorAll(".view-btn");
+  function setView(view) {
+    feed.classList.toggle("list", view === "list");
+    feed.classList.toggle("grid", view === "grid");
+    viewButtons.forEach(btn => {
+      const on = btn.dataset.view === view;
+      btn.classList.toggle("active", on);
+      btn.setAttribute("aria-pressed", String(on));
+    });
+  }
+  let savedView = "list";
+  try { savedView = localStorage.getItem("pindrop-view") === "grid" ? "grid" : "list"; } catch (e) { /* storage unavailable */ }
+  setView(savedView);
+  viewButtons.forEach(btn => btn.addEventListener("click", () => {
+    setView(btn.dataset.view);
+    try { localStorage.setItem("pindrop-view", btn.dataset.view); } catch (e) { /* ignore */ }
+  }));
 
   // ------------------------------------------------------------------ sort
   const sortSelect = document.getElementById("sortSelect");
