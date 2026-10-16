@@ -1,0 +1,19 @@
+{
+  "name": "pindrop-testbot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Test accounts that post, like and comment on a schedule so features like battles and tournaments can be tried with realistic data.",
+  "type": "module",
+  "scripts": {
+    "post": "node testbot.mjs post",
+    "dry-run": "node testbot.mjs post --dry-run",
+    "cleanup": "node testbot.mjs cleanup"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0",
+    "sharp": "0.35.5"
+  }
+}

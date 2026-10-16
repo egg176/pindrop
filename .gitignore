@@ -15,3 +15,7 @@ Thumbs.db
 
 # Build output
 *.zip
+
+# Test bot
+bot/node_modules/
+bot/out/

@@ -1,0 +1,55 @@
+name: Test bot
+
+# Posts a design from clearly-labelled test accounts every day so features like
+# battles and tournaments can be tried with realistic data.
+# Needs two repository secrets: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
+# (see bot/README.md). Without them this workflow does nothing.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"      # every day at 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "What to do"
+        type: choice
+        options: [post, cleanup]
+        default: post
+      posts:
+        description: "How many posts to create (1-10)"
+        default: "1"
+      delete_accounts:
+        description: "cleanup only: also delete the bot accounts"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testbot
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: bot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: bot/package-lock.json
+      - run: npm ci
+      - name: Run test bot
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          POSTS_PER_RUN: ${{ inputs.posts || '1' }}
+          ACTION: ${{ inputs.action || 'post' }}
+          DELETE_FLAG: ${{ inputs.delete_accounts && '--delete-users' || '' }}
+        run: node testbot.mjs "$ACTION" $DELETE_FLAG
