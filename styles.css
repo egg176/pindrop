@@ -191,9 +191,9 @@ body{background:#fff}
 .feed.grid .post-title,.feed.grid .post-copy,.feed.grid .post-handle{display:none}
 
 /* list mode: large, rounded, branded cards */
-.feed.list{display:block;padding:24px max(14px,calc((100% - 700px)/2)) 70px;background:#f6f8fd;min-height:60vh}
+.feed.list{display:block;padding:24px max(24px,calc((100% - 1500px)/2)) 70px;background:#f6f8fd;min-height:60vh}
 .feed.list .empty-state{padding:50px 20px}
-.feed.list .post{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;margin:0 0 20px;box-shadow:0 6px 24px #193d740a;transition:box-shadow .2s,transform .2s}
+.feed.list .post{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;margin:0 0 20px;box-shadow:0 6px 24px #193d740a;transition:box-shadow .2s,transform .2s}
 .feed.list .post:hover{box-shadow:0 10px 32px #246bfd18}
 .feed.list .post-head{gap:12px;margin-bottom:14px}
 .feed.list .post-head .avatar{width:44px;height:44px;font-size:16px;box-shadow:0 0 0 2px #fff,0 0 0 4px #cfe0ff}
@@ -203,7 +203,7 @@ body{background:#fff}
 .feed.list .post-title{font-size:19px;letter-spacing:-.4px;line-height:1.25;margin:0 0 6px;color:var(--ink)}
 .feed.list .post-copy{display:block;-webkit-line-clamp:unset;overflow:visible;margin:0 0 14px;font-size:15px;color:#344b70}
 .feed.list .post-media{aspect-ratio:auto;display:block;background:#f1f5fc;border-radius:14px;padding:8px}
-.feed.list .post-media .post-image{display:block;width:100%;height:auto;max-height:680px;object-fit:contain;border-radius:8px}
+.feed.list .post-media .post-image{display:block;width:100%;height:auto;max-height:760px;object-fit:contain;border-radius:8px}
 .feed.list .post-tags{margin-top:14px}
 .feed.list .post-actions{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);gap:8px}
 .feed.list .action{padding:7px 12px;border-radius:999px;gap:7px;font-size:14px;font-weight:600}
