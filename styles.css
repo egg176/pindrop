@@ -175,3 +175,46 @@ body{background:#fff}
   .side-bottom{margin-top:28px}
 }
 @media(max-width:560px){.feed.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* =====================================================================
+   Big posts (default) + PinDrop touches
+   ===================================================================== */
+.view-toggle{margin-left:auto;display:flex;gap:2px;background:var(--tab);padding:3px;border-radius:10px}
+.view-btn{border:0;background:transparent;width:34px;height:30px;border-radius:8px;display:grid;place-items:center;color:#5b6783}
+.view-btn .ico{width:18px;height:18px}
+.view-btn.active{background:#fff;color:var(--blue);box-shadow:0 1px 4px #193d7418}
+
+.post-tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.tag{background:#eaf2ff;color:var(--blue);border-radius:999px;padding:3px 10px;font-size:12px;font-weight:650}
+
+/* grid mode keeps the compact card: title sits under the name */
+.feed.grid .post-title,.feed.grid .post-copy,.feed.grid .post-handle{display:none}
+
+/* list mode: large, rounded, branded cards */
+.feed.list{display:block;padding:24px max(14px,calc((100% - 700px)/2)) 70px;background:#f6f8fd;min-height:60vh}
+.feed.list .empty-state{padding:50px 20px}
+.feed.list .post{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;margin:0 0 20px;box-shadow:0 6px 24px #193d740a;transition:box-shadow .2s,transform .2s}
+.feed.list .post:hover{box-shadow:0 10px 32px #246bfd18}
+.feed.list .post-head{gap:12px;margin-bottom:14px}
+.feed.list .post-head .avatar{width:44px;height:44px;font-size:16px;box-shadow:0 0 0 2px #fff,0 0 0 4px #cfe0ff}
+.feed.list .post-user{font-size:15px;font-weight:750}
+.feed.list .post-sub{display:none}
+.feed.list .post-handle{font-size:13px;color:var(--muted);margin-top:1px}
+.feed.list .post-title{font-size:19px;letter-spacing:-.4px;line-height:1.25;margin:0 0 6px;color:var(--ink)}
+.feed.list .post-copy{display:block;-webkit-line-clamp:unset;overflow:visible;margin:0 0 14px;font-size:15px;color:#344b70}
+.feed.list .post-media{aspect-ratio:auto;display:block;background:#f1f5fc;border-radius:14px;padding:8px}
+.feed.list .post-media .post-image{display:block;width:100%;height:auto;max-height:680px;object-fit:contain;border-radius:8px}
+.feed.list .post-tags{margin-top:14px}
+.feed.list .post-actions{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);gap:8px}
+.feed.list .action{padding:7px 12px;border-radius:999px;gap:7px;font-size:14px;font-weight:600}
+.feed.list .action:hover{background:#f0f5ff}
+.feed.list .action.liked{background:#eaf2ff}
+.feed.list .post-time{display:none}
+.feed.list .comments{margin-top:14px}
+
+@media(max-width:720px){
+  .view-toggle{margin-left:auto}
+  .feed.list{padding:14px 10px 90px}
+  .feed.list .post{padding:14px;border-radius:18px;margin-bottom:16px}
+  .feed.list .post-title{font-size:17px}
+}

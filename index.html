@@ -47,8 +47,12 @@
     <div class="sortbar">
       <label for="sortSelect">Sort by</label>
       <select id="sortSelect" class="select"><option value="latest">Latest</option><option value="likes">Most liked</option></select>
+      <div class="view-toggle" role="group" aria-label="Post size">
+        <button type="button" class="view-btn active" data-view="list" aria-pressed="true" aria-label="Large posts" title="Large posts"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="8" rx="1.5"/><rect x="3" y="13" width="18" height="8" rx="1.5"/></svg></button>
+        <button type="button" class="view-btn" data-view="grid" aria-pressed="false" aria-label="Grid" title="Grid"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+      </div>
     </div>
-    <section class="feed grid" id="feed">
+    <section class="feed list" id="feed">
       <div class="empty-state" id="emptyState">Loading designs…</div>
     </section>
     <footer class="mobile-footer">PinDrop · Create. Share. Compete.</footer>
