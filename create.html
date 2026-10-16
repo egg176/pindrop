@@ -12,26 +12,24 @@
   <aside class="sidebar" id="sidebar">
     <a class="brand" href="index.html"><img class="logo" src="assets/logo-128.png" width="36" height="36" alt=""><span>PinDrop</span></a>
     <nav class="nav" aria-label="Main navigation">
-      <a class="nav-link" href="index.html"><span class="nav-icon">⌂</span>Home</a>
-      <a class="nav-link" href="explore.html"><span class="nav-icon">⌕</span>Explore</a>
-      <a class="nav-link" href="battles.html"><span class="nav-icon">⚔</span>Battles</a>
-      <a class="nav-link" href="tournaments.html"><span class="nav-icon">♜</span>Tournaments</a>
-      <a class="nav-link" href="profile.html"><span class="nav-icon">◉</span>Profile</a>
-      <a class="nav-link" href="account.html"><span class="nav-icon">☺</span>Account</a>
+      <a class="nav-link" href="index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+      <a class="nav-link" href="explore.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Explore</span></a>
+      <a class="nav-link" href="battles.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="m5 14 4 4"/><path d="m7 17-3 3"/><path d="m3 19 2 2"/></svg><span>Battles</span></a>
+      <a class="nav-link" href="tournaments.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v5a6 6 0 0 1-12 0z"/><path d="M6 6H3v1a4 4 0 0 0 4 4"/><path d="M18 6h3v1a4 4 0 0 1-4 4"/><path d="M12 15v4"/><path d="M8 21h8"/></svg><span>Tournaments</span></a>
+      <a class="nav-link" href="profile.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Profile</span></a>
+      <a class="nav-link" href="account.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span>Account</span></a>
     </nav>
-    <div class="side-label">CREATE</div><a class="primary post-button" href="create.html">＋ <span>Post Design</span></a>
-    <div class="side-label">YOUR WORKFLOW</div>
-    <div class="workflow"><span class="step-number">1</span><span>Upload artwork</span></div>
-    <div class="workflow"><span class="step-number">2</span><span>Add details</span></div>
-    <div class="workflow"><span class="step-number">3</span><span>Publish to feed</span></div>
-    <div class="side-footer">Create · Share · Compete<br><br>The home for graphic designers.</div>
+    <div class="side-bottom">
+      <a class="btn-dark" href="create.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Post design</span></a>
+      <a class="btn-accent" href="account.html" data-signed-out-only>Sign in</a>
+    </div>
   </aside>
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <main class="main create-main">
     <header class="topbar">
-      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
-      <a class="back-link" href="index.html">← <span>Back to feed</span></a>
-      <div class="top-actions"><a class="avatar" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <a class="back-btn" href="index.html" aria-label="Back to home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a><div class="page-title">Post a design</div>
+      <div class="top-actions"><a class="avatar account-btn" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
     </header>
     <div class="create-heading"><div class="eyebrow">YOUR CREATIVE SPACE</div><h1>Share your design</h1><p>Show the community what you've been working on.</p></div>
     <div class="notice" id="authNotice" role="status" hidden style="max-width:760px;margin-bottom:16px"></div>
