@@ -23,6 +23,17 @@
     if (text !== undefined) node.textContent = text;
     return node;
   }
+  const ICONS = {
+    heart: '<path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.4-7 10-7 10z"/>',
+    comment: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+    share: '<path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>'
+  };
+  function icon(name) {
+    const wrap = document.createElement("span");
+    wrap.className = "ico-wrap";
+    wrap.innerHTML = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + "</svg>";
+    return wrap;
+  }
   function avatar(person, className) {
     const node = el("div", className);
     Auth.paintAvatar(node, person);
@@ -152,11 +163,12 @@
     const article = el("article", "post");
     article.id = "post-" + post.id;
     article.dataset.category = post.category;
+    article.postData = post;
     article.dataset.search = [post.title, post.description, post.category, (post.author && post.author.display_name) || "", (post.author && post.author.username) || "", ...(post.tags || [])].join(" ").toLowerCase();
 
     const head = el("div", "post-head");
     head.appendChild(avatar(post.author, "avatar"));
-    const who = el("div");
+    const who = el("div", "post-who");
     const name = el("div", "post-user", (post.author && post.author.display_name) || "Creator");
     if (post.author && post.author.is_verified) {
       const badge = el("span", "verified-badge", "✓");
@@ -165,49 +177,50 @@
       name.appendChild(badge);
     }
     who.appendChild(name);
-    who.appendChild(el("div", "handle", (post.author && post.author.username ? "@" + post.author.username + " · " : "") + timeAgo(post.created_at)));
+    who.appendChild(el("div", "post-sub", post.title));
     head.appendChild(who);
     article.appendChild(head);
 
-    article.appendChild(el("h3", "post-user post-title", post.title));
-    if (post.description) article.appendChild(el("p", "post-copy", post.description));
-
+    const media = el("div", "post-media");
     if (imageUrl) {
       const image = document.createElement("img");
       image.src = imageUrl;
       image.alt = post.title;
       image.loading = "lazy";
       image.className = "post-image";
-      article.appendChild(image);
+      media.appendChild(image);
     }
+    article.appendChild(media);
+
+    if (post.description) article.appendChild(el("p", "post-copy", post.description));
     if (post.tags && post.tags.length) {
-      article.appendChild(el("p", "small-meta", post.tags.map(tag => "#" + tag.replace(/\s+/g, "")).join("  ")));
+      article.appendChild(el("p", "small-meta post-tags", post.tags.map(tag => "#" + tag.replace(/\s+/g, "")).join("  ")));
     }
 
     const actions = el("div", "post-actions");
     const like = el("button", "action like" + (liked ? " liked" : ""));
     like.type = "button";
     like.setAttribute("aria-label", "Like");
-    const heart = el("span", "heart", liked ? "♥" : "♡");
     const likeCount = el("span", "count", String(post.like_count));
-    like.appendChild(heart);
+    like.appendChild(icon("heart"));
     like.appendChild(likeCount);
 
     const comment = el("button", "action comment");
     comment.type = "button";
     comment.setAttribute("aria-label", "Comments");
     const commentCount = el("span", "count", String(post.comment_count));
-    comment.appendChild(el("span", "", "▢"));
+    comment.appendChild(icon("comment"));
     comment.appendChild(commentCount);
 
     const share = el("button", "action share");
     share.type = "button";
-    share.appendChild(el("span", "", "↗"));
-    share.appendChild(el("span", "", "Share"));
+    share.setAttribute("aria-label", "Copy link");
+    share.appendChild(icon("share"));
 
     actions.appendChild(like);
     actions.appendChild(comment);
     actions.appendChild(share);
+    actions.appendChild(el("span", "post-time", timeAgo(post.created_at)));
     article.appendChild(actions);
 
     let isLiked = liked;
@@ -221,7 +234,6 @@
       isLiked = wantLike;
       post.like_count += wantLike ? 1 : -1;
       like.classList.toggle("liked", wantLike);
-      heart.textContent = wantLike ? "♥" : "♡";
       likeCount.textContent = String(post.like_count);
       const uid = currentUserId();
       const { error } = wantLike
@@ -231,7 +243,6 @@
         isLiked = !wantLike;
         post.like_count += wantLike ? -1 : 1;
         like.classList.toggle("liked", isLiked);
-        heart.textContent = isLiked ? "♥" : "♡";
         likeCount.textContent = String(post.like_count);
         showToast("Couldn't update your like. Please try again.");
       }
@@ -257,6 +268,20 @@
 
     return article;
   }
+
+  // ------------------------------------------------------------------ sort
+  const sortSelect = document.getElementById("sortSelect");
+  function applySort() {
+    const posts = Array.from(feed.querySelectorAll(".post"));
+    const byLikes = sortSelect && sortSelect.value === "likes";
+    posts.sort((a, b) => {
+      const pa = a.postData, pb = b.postData;
+      if (byLikes && pb.like_count !== pa.like_count) return pb.like_count - pa.like_count;
+      return new Date(pb.created_at) - new Date(pa.created_at);
+    });
+    posts.forEach(node => feed.appendChild(node));
+  }
+  if (sortSelect) sortSelect.addEventListener("change", applySort);
 
   // ------------------------------------------------------------------ load
   async function loadFeed() {
@@ -293,6 +318,7 @@
     }
 
     posts.forEach(post => feed.appendChild(buildPost(post, urlByPath[post.image_path], liked.has(post.id))));
+    applySort();
     refreshEmpty();
 
     if (location.hash && location.hash.startsWith("#post-")) {

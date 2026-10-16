@@ -1,1 +1,52 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Explore — PinDrop</title><link rel="icon" href="assets/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="stylesheet" href="styles.css"></head><body><div class="simple-page"><header class="simple-header"><a class="brand" href="index.html"><img class="logo" src="assets/logo-128.png" width="36" height="36" alt=""><span>PinDrop</span></a><a class="secondary-button" href="index.html">Back to home</a></header><main class="simple-content"><div class="eyebrow">DISCOVER SOMETHING NEW</div><h1>Explore designs</h1><p>Find inspiration across posters, logos, branding, typography, and more.</p><div class="explore-grid"><a class="explore-tile" href="index.html">Posters<span>Bold visuals and layouts</span></a><a class="explore-tile" href="index.html">Logos<span>Marks and identities</span></a><a class="explore-tile" href="index.html">Typography<span>Type-led experiments</span></a><a class="explore-tile" href="index.html">UI / UX<span>Interfaces and product design</span></a></div><p class="local-note">Explore categories are starter pages. Connect a database to load community submissions here.</p></main></div></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#246bfd">
+  <title>Explore — PinDrop</title>
+  <link rel="icon" href="assets/favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img class="logo" src="assets/logo-128.png" width="36" height="36" alt=""><span>PinDrop</span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-link" href="index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+      <a class="nav-link active" href="explore.html" aria-current="page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Explore</span></a>
+      <a class="nav-link" href="battles.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="m13 19 6-6"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="m5 14 4 4"/><path d="m7 17-3 3"/><path d="m3 19 2 2"/></svg><span>Battles</span></a>
+      <a class="nav-link" href="tournaments.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v5a6 6 0 0 1-12 0z"/><path d="M6 6H3v1a4 4 0 0 0 4 4"/><path d="M18 6h3v1a4 4 0 0 1-4 4"/><path d="M12 15v4"/><path d="M8 21h8"/></svg><span>Tournaments</span></a>
+      <a class="nav-link" href="profile.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Profile</span></a>
+      <a class="nav-link" href="account.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span>Account</span></a>
+    </nav>
+    <div class="side-bottom">
+      <a class="btn-dark" href="create.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Post design</span></a>
+      <a class="btn-accent" href="account.html" data-signed-out-only>Sign in</a>
+    </div>
+  </aside>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <a class="back-btn" href="index.html" aria-label="Back to home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a><h1 class="page-title">Explore</h1>
+      <div class="top-actions"><a class="avatar account-btn" href="account.html" data-auth-avatar aria-label="Your account">Y</a></div>
+    </header>
+    <div class="page-intro"><p>Find inspiration across posters, logos, branding, typography and more.</p></div>
+    <section class="creator-grid">
+      <a class="creator-tile" href="index.html"><span class="creator-circle">▧</span><strong>Posters</strong><span class="muted">Bold visuals and layouts</span></a>
+      <a class="creator-tile" href="index.html"><span class="creator-circle">◉</span><strong>Logos</strong><span class="muted">Marks and identities</span></a>
+      <a class="creator-tile" href="index.html"><span class="creator-circle">◇</span><strong>Branding</strong><span class="muted">Full identity systems</span></a>
+      <a class="creator-tile" href="index.html"><span class="creator-circle">Aa</span><strong>Typography</strong><span class="muted">Type-led experiments</span></a>
+      <a class="creator-tile" href="index.html"><span class="creator-circle">▣</span><strong>UI / UX</strong><span class="muted">Interfaces and product design</span></a>
+    </section>
+    <p class="local-note pad">Explore categories are starter pages. Connect a database to load community submissions here.</p>
+  </main>
+</div>
+<a class="floating-create" href="create.html" aria-label="Create a design" title="Create a design">+</a>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
